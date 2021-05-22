@@ -28,11 +28,11 @@ public class InlineKeyboardMarkupSource {
         return new InlineKeyboardMarkup();
     } 
 
-    protected <E extends Enum<E>, T> List<InlineKeyboardButton> getNavigateInlineButtons(Collection<?> items, Integer page, BotState<E, T> botState) {
+    protected <T> List<InlineKeyboardButton> getNavigateInlineButtons(Collection<?> items, Integer page, BotState<T> botState) {
         InlineKeyboardButton button = null;
         List<InlineKeyboardButton> buttons = new ArrayList<>();
 
-        if (page != START_PAGE) {
+        if (!page.equals(START_PAGE)) {
             button = new InlineKeyboardButton();
             button.setText(PREVIOUS_PAGE_TEXT);
             button.setCallbackData(generateCallbackData(botState, PREVIOUS_PAGE_CALLBACK_SUFFIX));
@@ -55,7 +55,7 @@ public class InlineKeyboardMarkupSource {
                     items.size() / ITEMS_PER_PAGE + 1;
     }
 
-    protected <E extends Enum<E>, T> String generateCallbackData(BotState<E, T> botState, String suffix) {
+    protected <T> String generateCallbackData(BotState<T> botState, String suffix) {
         if (suffix == null || suffix.isEmpty() || suffix.isBlank()) {
             return CALLBACK_PREFIX + botState.toString().toLowerCase();
         }

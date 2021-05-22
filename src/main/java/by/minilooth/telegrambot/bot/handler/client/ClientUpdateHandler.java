@@ -1,5 +1,6 @@
 package by.minilooth.telegrambot.bot.handler.client;
 
+import by.minilooth.telegrambot.bot.api.BotContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,8 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import by.minilooth.telegrambot.bot.api.UpdateHandler;
-import by.minilooth.telegrambot.bot.context.client.ClientBotContext;
 import by.minilooth.telegrambot.bot.state.ClientBotState;
 import by.minilooth.telegrambot.exception.ClientBotStateException;
-import by.minilooth.telegrambot.exception.UserNotFoundException;
 import by.minilooth.telegrambot.model.Client;
 import by.minilooth.telegrambot.model.User;
 import by.minilooth.telegrambot.service.ClientService;
@@ -34,7 +33,7 @@ public class ClientUpdateHandler extends UpdateHandler {
     @Override
     public void processText(User user, Update update) throws ClientBotStateException {
         final String chatId = update.getMessage().getChatId().toString();
-        ClientBotContext botContext = null;
+        BotContext<Client> botContext = null;
         ClientBotState botState = null;
         Client client = user.getClient();
 
@@ -42,7 +41,7 @@ public class ClientUpdateHandler extends UpdateHandler {
             if (client == null) {
                 client = clientService.createClient(user);
 
-                botContext = ClientBotContext.of(client, update);
+                botContext = BotContext.of(client, update);
                 botState = client.getClientBotState();
 
                 botState.enter(botContext);
@@ -58,7 +57,7 @@ public class ClientUpdateHandler extends UpdateHandler {
                 }
             }
             else {
-                botContext = ClientBotContext.of(client, update);
+                botContext = BotContext.of(client, update);
                 botState = client.getClientBotState();
 
                 LOGGER.info("[{} | {}] Text: {}", chatId, botState, update.getMessage().getText());

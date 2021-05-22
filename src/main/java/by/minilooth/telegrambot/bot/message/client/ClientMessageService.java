@@ -1,5 +1,6 @@
 package by.minilooth.telegrambot.bot.message.client;
 
+import by.minilooth.telegrambot.bot.api.BotContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import by.minilooth.telegrambot.bot.api.enums.UpdateType;
-import by.minilooth.telegrambot.bot.context.client.ClientBotContext;
 import by.minilooth.telegrambot.bot.keyboard.client.ClientReplyKeyboardMarkupSource;
 import by.minilooth.telegrambot.bot.message.MessageService;
 import by.minilooth.telegrambot.bot.api.MessageSender;
@@ -26,13 +26,13 @@ public class ClientMessageService extends MessageService {
     @Autowired private ClientMessageSource clientMessageSource;
     @Autowired private ClientReplyKeyboardMarkupSource clientReplyKeyboardMarkupSource;
 
-    public void sendStartMessage(ClientBotContext clientBotContext) throws ClientNotFoundException {
-        Client client = clientBotContext.getClient();
+    public void sendStartMessage(BotContext<Client> botContext) throws ClientNotFoundException {
+        Client client = botContext.getContextEntity();
 
         if (client == null) throw new ClientNotFoundException();
 
-        if (TelegramUtils.getUpdateType(clientBotContext.getUpdate()).equals(UpdateType.CALLBACK_QUERY) &&
-            !clientBotContext.getUpdate().getMessage().getReplyMarkup().equals(new InlineKeyboardMarkup())) {
+        if (TelegramUtils.getUpdateType(botContext.getUpdate()).equals(UpdateType.CALLBACK_QUERY) &&
+            !botContext.getUpdate().getMessage().getReplyMarkup().equals(new InlineKeyboardMarkup())) {
 
         }
         else {

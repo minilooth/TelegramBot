@@ -1,19 +1,19 @@
 package by.minilooth.telegrambot.bot.state;
 
+import by.minilooth.telegrambot.bot.api.BotContext;
 import by.minilooth.telegrambot.bot.api.BotState;
-import by.minilooth.telegrambot.bot.context.client.ClientBotContext;
 import by.minilooth.telegrambot.exception.ClientBotStateException;
 import by.minilooth.telegrambot.model.Client;
 
-public enum ClientBotState implements BotState<ClientBotState, ClientBotContext> {
+public enum ClientBotState implements BotState<BotContext<Client>> {
     START(true) {
         @Override
-        public void enter(ClientBotContext botContext) throws ClientBotStateException {
+        public void enter(BotContext<Client> botContext) throws ClientBotStateException {
             // throw new ClientBotStateException("adasd", this);
         }
 
         @Override
-        public void handleText(ClientBotContext botContext) {
+        public void handleText(BotContext<Client> botContext) {
 
         }
 
@@ -33,12 +33,12 @@ public enum ClientBotState implements BotState<ClientBotState, ClientBotContext>
         private ClientBotState nextState = null;
 
         @Override
-        public void enter(ClientBotContext botContext) {
+        public void enter(BotContext<Client> botContext) {
 
         }
 
         @Override
-        public void handleText(ClientBotContext botContext) throws ClientBotStateException {
+        public void handleText(BotContext<Client> botContext) throws ClientBotStateException {
             // throw new ClientBotStateException("adasd", this);
         }
 
@@ -57,12 +57,12 @@ public enum ClientBotState implements BotState<ClientBotState, ClientBotContext>
         private ClientBotState nextState = null;
 
         @Override
-        public void enter(ClientBotContext botContext) {
+        public void enter(BotContext<Client> botContext) {
 
         }
 
         @Override
-        public void handleText(ClientBotContext botContext) {
+        public void handleText(BotContext<Client> botContext) {
 
         }
 
@@ -81,12 +81,12 @@ public enum ClientBotState implements BotState<ClientBotState, ClientBotContext>
         private ClientBotState nextState = null;
 
         @Override
-        public void enter(ClientBotContext botContext) {
+        public void enter(BotContext<Client> botContext) {
 
         }
 
         @Override
-        public void handleText(ClientBotContext botContext) {
+        public void handleText(BotContext<Client> botContext) {
 
         }
 
@@ -105,12 +105,12 @@ public enum ClientBotState implements BotState<ClientBotState, ClientBotContext>
         private ClientBotState nextState = null;
 
         @Override
-        public void enter(ClientBotContext botContext) {
+        public void enter(BotContext<Client> botContext) {
 
         }
 
         @Override
-        public void handleText(ClientBotContext botContext) {
+        public void handleText(BotContext<Client> botContext) {
 
         }
 
@@ -140,31 +140,7 @@ public enum ClientBotState implements BotState<ClientBotState, ClientBotContext>
     }
 
     @Override
-    public void handleText(ClientBotContext clientBotContext) throws ClientBotStateException {}
-    
-    @Override
-    public void handleCallbackQuery(ClientBotContext clientBotContext) throws ClientBotStateException {}
-
-    @Override
-    public void handleContact(ClientBotContext clientBotContext) throws ClientBotStateException {}
-
-    @Override
-    public void handlePhoto(ClientBotContext clientBotContext) throws ClientBotStateException {}
-
-    @Override
-    public void handleVoice(ClientBotContext clientBotContext) throws ClientBotStateException {}
-
-    @Override
-    public void handleVideo(ClientBotContext clientBotContext) throws ClientBotStateException {}
-
-    @Override
-    public void handleVideoNote(ClientBotContext clientBotContext) throws ClientBotStateException {}
-
-    @Override
-    public void handleDocument(ClientBotContext clientBotContext) throws ClientBotStateException {}
-
-    @Override
-    public abstract void enter(ClientBotContext clientBotContext) throws ClientBotStateException;
+    public abstract void enter(BotContext<Client> botContext);
 
     @Override
     public abstract ClientBotState nextState();
