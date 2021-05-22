@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ThreadConfiguration {
     
-    private final static Integer AWAIT_TERMINATON_SECONDS = 3;
+    private final static Integer AWAIT_TERMINATION_SECONDS = 3;
 
     @Bean
     public TaskExecutor threadPoolTaskExecutor() {
@@ -16,7 +16,7 @@ public class ThreadConfiguration {
 
         threadPoolTaskExecutor.setCorePoolSize(Integer.MAX_VALUE);
         threadPoolTaskExecutor.setMaxPoolSize(Integer.MAX_VALUE);
-        threadPoolTaskExecutor.setAwaitTerminationSeconds(AWAIT_TERMINATON_SECONDS);
+        threadPoolTaskExecutor.setAwaitTerminationSeconds(AWAIT_TERMINATION_SECONDS);
         threadPoolTaskExecutor.initialize();
 
         return threadPoolTaskExecutor;

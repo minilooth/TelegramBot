@@ -33,7 +33,7 @@ public class Client {
     private Long id;
 
     @Column(name = "client_bot_state", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private ClientBotState clientBotState;
 
     @EqualsAndHashCode.Exclude

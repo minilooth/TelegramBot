@@ -47,7 +47,7 @@ public class User {
     private String username;
 
     @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(name = "last_bot_message_id", nullable = false, columnDefinition = "INT DEFAULT 0")

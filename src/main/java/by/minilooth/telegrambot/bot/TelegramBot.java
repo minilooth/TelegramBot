@@ -1,7 +1,6 @@
 package by.minilooth.telegrambot.bot;
 
-import java.util.Optional;
-
+import by.minilooth.telegrambot.util.TelegramUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,44 +33,26 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Autowired private ClientUpdateHandler clientUpdateHandler;
 
     @Override
-    public void onUpdateReceived(Update update) {
-        final Optional<User> user = userService.getByTelegramId(this.getTelegramId(update));
-
-        if (user.isPresent()) {
-            processUpdate(user.get(), update);
-        }
-        else {
-            register(update);
-        }
-    }
-
-    private String getTelegramId(Update update) {
-        if (update.hasMessage()) {
-            return update.getMessage().getChatId().toString();
-        }
-        else if (update.hasCallbackQuery()) {
-            return update.getCallbackQuery().getFrom().getId().toString();
-        }
-        return null;
+    public void onUpdateReceived(final Update update) {
+        userService.getByTelegramId(TelegramUtils.getTelegramId(update))
+                .ifPresentOrElse(u -> processUpdate(u, update), () -> register(update));
     }
 
     private void processUpdate(User user, Update update) {
-        try {
-            switch(user.getRole()) {
-                case CLIENT:
-                    clientUpdateHandler.handle(update);
-                    break;
-                default:
-                    break;
-            }
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        switch (user.getRole()) {
+            case CLIENT:
+                clientUpdateHandler.handle(user, update);
+                break;
+            default:
+                break;
         }
     }
 
     private void register(Update update) {
-        LOGGER.info("New user registered: " + this.getTelegramId(update));
-        processUpdate(userService.createUser(update, Role.parseRole(update.getMessage().getText())), update);
+        User user = userService.createUser(update, Role.parseRole(update.getMessage().getText()));
+
+        LOGGER.info("New user registered: " + user.getTelegramId());
+
+        processUpdate(user, update);
     }
 }

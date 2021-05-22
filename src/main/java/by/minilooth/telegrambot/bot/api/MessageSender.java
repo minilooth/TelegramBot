@@ -165,21 +165,13 @@ public class MessageSender {
     private Boolean editMessageText(EditMessageText editMessageText) throws TelegramApiException {
         Serializable result = telegramBot.execute(editMessageText);
 
-        if (result instanceof Message) {
-            return true;
-        }
-
-        return false;
+        return result instanceof Message;
     }
 
     private Boolean editMessageReplyMarkup(EditMessageReplyMarkup editMessageReplyMarkup) throws TelegramApiException {
         Serializable result = telegramBot.execute(editMessageReplyMarkup);
 
-        if (result instanceof Message) {
-            return true;
-        }
-
-        return false;
+        return result instanceof Message;
     }
 
     private Boolean deleteMessage(DeleteMessage deleteMessage) throws TelegramApiException {

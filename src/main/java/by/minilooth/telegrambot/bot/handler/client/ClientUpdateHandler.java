@@ -32,12 +32,10 @@ public class ClientUpdateHandler extends UpdateHandler {
     }
 
     @Override
-    public void processText(Update update) throws ClientBotStateException, UserNotFoundException {
+    public void processText(User user, Update update) throws ClientBotStateException {
         final String chatId = update.getMessage().getChatId().toString();
         ClientBotContext botContext = null;
         ClientBotState botState = null;
-
-        User user = userService.getByTelegramId(chatId).orElseThrow(UserNotFoundException::new);
         Client client = user.getClient();
 
         try {
@@ -88,43 +86,43 @@ public class ClientUpdateHandler extends UpdateHandler {
     }
 
     @Override
-    public void processContact(Update update) {
+    public void processContact(User user, Update update) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void processPhoto(Update update) {
+    public void processPhoto(User user, Update update) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void processCallbackQuery(Update update) {
+    public void processCallbackQuery(User user, Update update) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void processVoice(Update update) {
+    public void processVoice(User user, Update update) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void processVideo(Update update) {
+    public void processVideo(User user, Update update) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void processVideoNote(Update update) {
+    public void processVideoNote(User user, Update update) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void processDocument(Update update) {
+    public void processDocument(User user, Update update) {
         // TODO Auto-generated method stub
 
     }

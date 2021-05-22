@@ -1,40 +1,37 @@
 package by.minilooth.telegrambot.bot.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import by.minilooth.telegrambot.model.User;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import by.minilooth.telegrambot.util.BotUtils;
+import by.minilooth.telegrambot.util.TelegramUtils;
 
 public abstract class UpdateHandler implements UpdateProcessor {
 
-    @Autowired
-    private BotUtils botUtils;
-
-    public void handle(Update update) throws Exception {
-        switch(botUtils.getUpdateType(update)) {
+    public void handle(User user, Update update) {
+        switch(TelegramUtils.getUpdateType(update)) {
             case CALLBACK_QUERY:
-                this.processCallbackQuery(update);
+                this.processCallbackQuery(user, update);
                 break;
             case TEXT:
-                this.processText(update);
+                this.processText(user, update);
                 break;
             case CONTACT:
-                this.processContact(update);
+                this.processContact(user, update);
                 break;
             case PHOTO:
-                this.processPhoto(update);
+                this.processPhoto(user, update);
                 break;
             case VOICE:
-                this.processVoice(update);
+                this.processVoice(user, update);
                 break;
             case VIDEO:
-                this.processVideo(update);
+                this.processVideo(user, update);
                 break;
             case VIDEO_NOTE:
-                this.processVideoNote(update);
+                this.processVideoNote(user, update);
                 break;
             case DOCUMENT:
-                this.processDocument(update);
+                this.processDocument(user, update);
                 break;
             default:
                 break;

@@ -15,14 +15,13 @@ import by.minilooth.telegrambot.bot.message.MessageService;
 import by.minilooth.telegrambot.bot.api.MessageSender;
 import by.minilooth.telegrambot.exception.ClientNotFoundException;
 import by.minilooth.telegrambot.model.Client;
-import by.minilooth.telegrambot.util.BotUtils;
+import by.minilooth.telegrambot.util.TelegramUtils;
 
 @Service
 public class ClientMessageService extends MessageService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ClientMessageService.class);
     
-    @Autowired private BotUtils botUtils;
     @Autowired private MessageSender messageSender;
     @Autowired private ClientMessageSource clientMessageSource;
     @Autowired private ClientReplyKeyboardMarkupSource clientReplyKeyboardMarkupSource;
@@ -32,7 +31,7 @@ public class ClientMessageService extends MessageService {
 
         if (client == null) throw new ClientNotFoundException();
 
-        if (botUtils.getUpdateType(clientBotContext.getUpdate()).equals(UpdateType.CALLBACK_QUERY) &&
+        if (TelegramUtils.getUpdateType(clientBotContext.getUpdate()).equals(UpdateType.CALLBACK_QUERY) &&
             !clientBotContext.getUpdate().getMessage().getReplyMarkup().equals(new InlineKeyboardMarkup())) {
 
         }
