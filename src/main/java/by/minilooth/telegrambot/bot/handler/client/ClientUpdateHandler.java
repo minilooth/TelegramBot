@@ -1,6 +1,8 @@
 package by.minilooth.telegrambot.bot.handler.client;
 
 import by.minilooth.telegrambot.bot.api.BotContext;
+import by.minilooth.telegrambot.bot.api.enums.UpdateType;
+import by.minilooth.telegrambot.util.TelegramUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,8 @@ public class ClientUpdateHandler extends UpdateHandler {
 
     @Override
     public void processText(User user, Update update) throws ClientBotStateException {
-        final String chatId = update.getMessage().getChatId().toString();
+        final String chatId = TelegramUtils.getTelegramId(update);
+        final UpdateType updateType = TelegramUtils.getUpdateType(update);
         BotContext<Client> botContext = null;
         ClientBotState botState = null;
         Client client = user.getClient();
@@ -62,7 +65,34 @@ public class ClientUpdateHandler extends UpdateHandler {
 
                 LOGGER.info("[{} | {}] Text: {}", chatId, botState, update.getMessage().getText());
 
-                botState.handleText(botContext);
+                switch(updateType) {
+                    case CALLBACK_QUERY:
+                        botState.handleCallbackQuery(botContext);
+                        break;
+                    case TEXT:
+                        botState.handleText(botContext);
+                        break;
+                    case CONTACT:
+                        botState.handleContact(botContext);
+                        break;
+                    case PHOTO:
+                        botState.handlePhoto(botContext);
+                        break;
+                    case VOICE:
+                        botState.handleVoice(botContext);
+                        break;
+                    case VIDEO:
+                        botState.handleVideo(botContext);
+                        break;
+                    case VIDEO_NOTE:
+                        botState.handleVideoNote(botContext);
+                        break;
+                    case DOCUMENT:
+                        botState.handleDocument(botContext);
+                        break;
+                    default:
+                        return;
+                }
 
                 do {
                     if (botState.nextState() != null) {

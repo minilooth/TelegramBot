@@ -1,5 +1,8 @@
 package by.minilooth.telegrambot.validation;
 
+import by.minilooth.telegrambot.exception.ValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Validator {
 
     private final static String EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
@@ -14,52 +17,37 @@ public class Validator {
     private final static Integer SURNAME_MIN_LENGTH = 3;
     private final static Integer SURNAME_MAX_LENGTH = 40;
 
-    private static Validator instance;
-
-    private Validator() {}
-
-    public static Validator getInstance() {
-        if (instance == null) {
-            instance = new Validator();
-        }
-        return instance;
-    }
-
-    public ValidationResult isEmailValid(String email) {
+    public static void isEmailValid(String email) throws ValidationException {
         if (!email.matches(EMAIL_REGEX)) {
-            return new ValidationResult(false, "message.email.incorrectFormat");
+            throw new ValidationException("message.email.incorrectFormat");
         }
         if (email.length() < EMAIL_MIN_LENGTH || email.length() > EMAIL_MAX_LENGTH) {
-            return new ValidationResult(false, "message.email.incorrectLength");
+            throw new ValidationException("message.email.incorrectLength");
         }
-        return new ValidationResult(true, null);
     }
 
-    public ValidationResult isFirstnameValid(String firstname) {
+    public static void isFirstnameValid(String firstname) throws ValidationException {
         if (!firstname.matches(FIRSTNAME_REGEX)) {
-            return new ValidationResult(false, "message.firstname.incorrectFormat");
+            throw new ValidationException("message.firstname.incorrectFormat");
         }
         if (firstname.length() < FIRSTNAME_MIN_LENGTH || firstname.length() > FIRSTNAME_MAX_LENGTH) {
-            return new ValidationResult(false, "message.firstname.incorrectLength");
+            throw new ValidationException("message.firstname.incorrectLength");
         }
-        return new ValidationResult(true, null);
     }
 
-    public ValidationResult isSurnameValid(String surname) {
+    public static void isSurnameValid(String surname) throws ValidationException {
         if (!surname.matches(SURNAME_REGEX)) {
-            return new ValidationResult(false, "message.surname.incorrectFormat");
+            throw new ValidationException("message.surname.incorrectFormat");
         }
         if (surname.length() < SURNAME_MIN_LENGTH || surname.length() > SURNAME_MAX_LENGTH) {
-            return new ValidationResult(false, "message.surname.incorrectLength"); 
+            throw new ValidationException("message.surname.incorrectLength");
         }
-        return new ValidationResult(true, null);
     }
 
-    public ValidationResult isPhoneNumberValid(String phoneNumber) {
+    public static void isPhoneNumberValid(String phoneNumber) throws ValidationException {
         if (!phoneNumber.matches(PHONE_NUMBER_REGEX)) {
-            return new ValidationResult(false, "message.mobilePhone.incorrectFormat");
+            throw new ValidationException("message.mobilePhone.incorrectFormat");
         }
-        return new ValidationResult(true, null);
     }
 
 }

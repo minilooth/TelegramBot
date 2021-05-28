@@ -3,7 +3,7 @@ package by.minilooth.telegrambot.exception;
 import by.minilooth.telegrambot.bot.state.ClientBotState;
 import lombok.Getter;
 
-public class ClientBotStateException extends Error {
+public class ClientBotStateException extends RuntimeException {
     
     private static final long serialVersionUID = 5771105261629045380L;
 
